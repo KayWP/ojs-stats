@@ -21,4 +21,4 @@ if 'df' in st.session_state and st.session_state.df is not None:
 else:
     st.warning("⚠️ No data found. Please upload an article report on the upload page first.")
     if st.button("📂 Go to Upload Page"):
-        st.switch_page("pages/Upload.py")  # Adjust the page name as needed
+        st.switch_page("Upload.py")  # Adjust the page name as needed
