@@ -9,6 +9,21 @@ if 'geodf' not in st.session_state:
     st.session_state.geodf = None
 
 st.title('OpenJournals Statistics')
+
+st.markdown("""
+Welcome to **OpenJournals Statistics** 👋  
+
+This dashboard helps you explore how readers engage with your journal articles.  
+- 📊 See which articles are most popular by downloads and abstract views.  
+- 🌍 Discover where your readers are located around the world.  
+
+To get started, please upload your **Articles Report** and **Geographic Report** exported from OJS (Open Journal Systems).  
+            
+Once uploaded, you’ll be able to navigate between pages to analyze your readership in detail using the sidebar on the left.
+""")
+
+st.subheader("Upload files here")
+
 csv_file = st.file_uploader("Upload your OJS Articles Report here (Statistics → Articles → Download Report → Download Articles)")
 
 csv_file_geo = st.file_uploader("Upload your OJS Geographic Report here (Statistics → Articles → Download Report → Download Geographic)")
