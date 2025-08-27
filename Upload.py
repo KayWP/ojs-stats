@@ -74,16 +74,16 @@ if csv_file_geo is not None:
     else:
         try:
             #cache the uploaded file so all pages can access it
-            st.session_state.geodf = pd.read_csv
+            st.session_state.geodf = pd.read_csv(csv_file_geo, skiprows=4)
             
             try:
-                if validate_csv(st.session_state.df, ['City', 'Region', 'Country', 'Total', 'Unique']):
+                if validate_csv(st.session_state.geodf, ['City', 'Region', 'Country', 'Total', 'Unique']):
                     st.session_state.geodf_valid = True
                     st.success("✅ Geographical Data uploaded and cached successfully!")
                 else:
                     st.warning("The CSV you uploaded does not appear to be an OJS Geographic Report.")
             except Exception as validation_error:
-                st.warning('The CSV you uploaded does not appear to be an OJS Geographic Report.')
+                st.warning('The CSV you uploaded does not appear to be a valid OJS Geographic Report.')
                 with st.expander("Technical details (for debugging)"):
                     st.error(f"Validation error: {str(validation_error)}")
 
