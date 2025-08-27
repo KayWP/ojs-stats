@@ -143,6 +143,25 @@ if 'geodf' in st.session_state and st.session_state.geodf is not None:
             else:
                 st.warning("📍 **Highly Concentrated**: Most readers from few countries - consider international outreach")
 
+
+    # Add FAQ section
+    with st.expander("❓ Frequently Asked Questions", expanded=False):
+        st.markdown("""
+        **Do Bots influence these statistics?**
+    
+        OJS uses COUNTER-recommended methods to filter out automated activity:
+        - Known bot and crawler filtering using COUNTER lists
+        - Consolidating multiple views from the same user within 30 seconds into a single view
+        - This means your statistics may be lower than raw server logs, but more accurate for real readership
+                          
+        **Do deleted submissions affect my statistics?**
+        
+        OJS does not count properly deleted submissions in statistics. However, if your numbers seem off, check for:
+        - Duplicate submissions where only one version was published
+        - Submissions that were rejected but not properly deleted
+        - Multiple versions of the same manuscript
+        """)
+
 else:
     st.warning("⚠️ No geographical data found. Please upload a geographical report on the upload page first.")
     if st.button("📂 Go to Upload Page"):

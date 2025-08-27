@@ -107,6 +107,36 @@ if 'df' in st.session_state and st.session_state.df is not None:
             - High abstract views suggest good discoverability and appealing titles/topics
             """)
 
+    # Add FAQ section
+    with st.expander("❓ Frequently Asked Questions", expanded=False):
+        st.markdown("""
+        **What is an Abstract View?**
+    
+        An abstract view is recorded when someone looks at the article landing page which gives an overview of the article. 
+        This measures initial interest in your content. Note that reloading or refreshing the landing page will also add 
+        an abstract view - these are not unique visitors.
+        
+        **What is a File Download?**
+        
+        A file download is recorded when someone opens a file by clicking the relevant button to enter the file or PDF viewer. 
+        It represents deeper engagement with your content. Note: it doesn't track whether the file is actually saved to 
+        someone's computer.            
+
+        **Do Bots influence these statistics?**
+    
+        OJS uses COUNTER-recommended methods to filter out automated activity:
+        - Known bot and crawler filtering using COUNTER lists
+        - Consolidating multiple views from the same user within 30 seconds into a single view
+        - This means your statistics may be lower than raw server logs, but more accurate for real readership
+                          
+        **Do deleted submissions affect my statistics?**
+        
+        OJS does not count properly deleted submissions in statistics. However, if your numbers seem off, check for:
+        - Duplicate submissions where only one version was published
+        - Submissions that were rejected but not properly deleted
+        - Multiple versions of the same manuscript
+        """)
+
 else:
     st.warning("⚠️ No data found. Please upload an article report on the upload page first.")
     if st.button("📂 Go to Upload Page"):
