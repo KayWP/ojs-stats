@@ -24,7 +24,7 @@ accurate geographic readership data.
 """)
 
 #check if the df was uploaded
-if 'geodf' in st.session_state and st.session_state.geodf is not None:
+if 'geodf' in st.session_state and st.session_state.geodf_valid is not False:
     geo_df = st.session_state.geodf
 
     total_unique = total_visitor_count(geo_df)

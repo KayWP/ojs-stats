@@ -38,7 +38,7 @@ with st.expander("📖 Understanding These Metrics", expanded=False):
     """)
 
 #check if the df was uploaded
-if 'df' in st.session_state and st.session_state.df is not None:
+if 'df_valid' in st.session_state and st.session_state.df_valid is not False:
     df = st.session_state.df
     
     st.header('Top 5 Articles by Engagement')
