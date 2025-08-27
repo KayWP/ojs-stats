@@ -16,26 +16,34 @@ def filter_visitors(df, country):
     filtered_df = df[df['Country'] == country]
     return sum(filtered_df['Unique'])
 
-geo_df = pd.read_csv('geo_stats.csv', skiprows=4)
-
-total_unique = total_visitor_count(geo_df)
-
 st.title('OpenJournals Statistics')
-st.header('Total Unique Users')
-st.write(str(total_unique))
 
-unique_countries = list(set(geo_df['Country']))
-unique_countries = sorted(unique_countries)
+#check if the df was uploaded
+if 'geodf' in st.session_state and st.session_state.geodf is not None:
+    geo_df = st.session_state.geodf
 
-option = st.selectbox(
-    "What percentage of my users is from this country?",
-    unique_countries,
-)
+    total_unique = total_visitor_count(geo_df)
 
-number = filter_visitors(geo_df, option)
-percentage = round((number/total_unique)*100, 2)
+    st.header('Total Unique Users')
+    st.write(str(total_unique))
 
-st.write(f"{number} unique visitors are from {option}. This is {percentage}% of your total unique visitors.")
+    unique_countries = list(set(geo_df['Country']))
+    unique_countries = sorted(unique_countries)
 
-st.header('Geographical overview')
-st.write(geo_overview(geo_df))
+    option = st.selectbox(
+        "What percentage of my users is from this country?",
+        unique_countries,
+    )
+
+    number = filter_visitors(geo_df, option)
+    percentage = round((number/total_unique)*100, 2)
+
+    st.write(f"{number} unique visitors are from {option}. This is {percentage}% of your total unique visitors.")
+
+    st.header('Geographical overview')
+    st.write(geo_overview(geo_df))
+
+else:
+    st.warning("⚠️ No geographical data found. Please upload a geographical report on the upload page first.")
+    if st.button("📂 Go to Upload Page"):
+        st.switch_page("pages/Upload.py")  # Adjust the page name as needed
