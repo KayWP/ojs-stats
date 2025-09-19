@@ -1,11 +1,18 @@
 import streamlit as st
 import pandas as pd
 
-def validate_csv(df, column_list):
-    if list(df.columns) == column_list:
-        return True
-    else:
-        return False
+def validate_csv(df, column_lists):
+    """
+    Validate CSV against multiple possible column configurations
+    column_lists should be a list of lists, where each inner list represents
+    a valid column configuration
+    """
+    actual_columns = list(df.columns)
+    
+    for valid_columns in column_lists:
+        if actual_columns == valid_columns:
+            return True
+    return False
 
 def generate_temporal_span(csv_file):
     ...
@@ -34,7 +41,7 @@ This dashboard helps you explore how readers engage with your journal articles.
 
 To get started, please upload your **Articles Report** and **Geographic Report** exported from OJS (Open Journal Systems).  
             
-Once uploaded, you’ll be able to navigate between pages to analyze your readership in detail using the sidebar on the left.
+Once uploaded, you'll be able to navigate between pages to analyze your readership in detail using the sidebar on the left.
 """)
 
 st.subheader("Upload files here")
@@ -51,11 +58,21 @@ if csv_file is not None:
             st.session_state.df = pd.read_csv(csv_file, skiprows=4)
             
             try:
-                if validate_csv(st.session_state.df, ['ID', 'Title', 'Total', 'Abstract Views', 'File Views', 'PDF', 'HTML', 'Other']):
+                # Define valid column configurations for articles (English and Dutch)
+                articles_column_configs = [
+                    ['ID', 'Title', 'Total', 'Abstract Views', 'File Views', 'PDF', 'HTML', 'Other'],  # English
+                    ['ID', 'Titel', 'Total', 'Samenvatting bekeken', 'File Views', 'PDF', 'HTML', 'Overig']  # Dutch
+                ]
+                
+                if validate_csv(st.session_state.df, articles_column_configs):
                     st.session_state.df_valid = True
                     st.success("✅ Article Data uploaded and cached successfully!")
                 else:
                     st.warning("The CSV you uploaded does not appear to be an OJS Article Report.")
+                    with st.expander("Show detected columns"):
+                        st.write("Detected columns:", list(st.session_state.df.columns))
+                        st.write("Expected columns (English):", articles_column_configs[0])
+                        st.write("Expected columns (Dutch):", articles_column_configs[1])
             except Exception as validation_error:
                 st.warning("The CSV you uploaded does not appear to be an OJS Article Report.")
                 # Optionally show the technical error for debugging
@@ -77,11 +94,21 @@ if csv_file_geo is not None:
             st.session_state.geodf = pd.read_csv(csv_file_geo, skiprows=4)
             
             try:
-                if validate_csv(st.session_state.geodf, ['City', 'Region', 'Country', 'Total', 'Unique']):
+                # Define valid column configurations for geographic data (English and Dutch)
+                geo_column_configs = [
+                    ['City', 'Region', 'Country', 'Total', 'Unique'],  # English
+                    ['Stad', 'Regio', 'Land', 'Total', 'Unique']  # Dutch
+                ]
+                
+                if validate_csv(st.session_state.geodf, geo_column_configs):
                     st.session_state.geodf_valid = True
                     st.success("✅ Geographical Data uploaded and cached successfully!")
                 else:
                     st.warning("The CSV you uploaded does not appear to be an OJS Geographic Report.")
+                    with st.expander("Show detected columns"):
+                        st.write("Detected columns:", list(st.session_state.geodf.columns))
+                        st.write("Expected columns (English):", geo_column_configs[0])
+                        st.write("Expected columns (Dutch):", geo_column_configs[1])
             except Exception as validation_error:
                 st.warning('The CSV you uploaded does not appear to be a valid OJS Geographic Report.')
                 with st.expander("Technical details (for debugging)"):
