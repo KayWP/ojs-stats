@@ -66,6 +66,7 @@ if csv_file is not None:
                 
                 if validate_csv(st.session_state.df, articles_column_configs):
                     st.session_state.df_valid = True
+                    st.session_state.df.rename(index={3: "Abstract Views"})
                     st.success("✅ Article Data uploaded and cached successfully!")
                 else:
                     st.warning("The CSV you uploaded does not appear to be an OJS Article Report.")
