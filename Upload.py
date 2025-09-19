@@ -105,6 +105,13 @@ if csv_file_geo is not None:
                 
                 if validate_csv(st.session_state.geodf, geo_column_configs):
                     st.session_state.geodf_valid = True
+
+                    st.session_state.geodf = st.session_state.geodf.rename(
+                        columns={st.session_state.geodf.columns[0]: "City",
+                                 st.session_state.geodf.columns[1]: "Region",
+                                 st.session_state.geodf.columns[2]: "Country"}
+                    )
+
                     st.success("✅ Geographical Data uploaded and cached successfully!")
                 else:
                     st.warning("The CSV you uploaded does not appear to be an OJS Geographic Report.")
