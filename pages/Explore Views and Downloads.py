@@ -4,10 +4,10 @@ import pandas as pd
 #function that counts the top 5 downloads
 def article_top5_downloads(df, button):
     if button == 'File Downloads':
-        type = 'PDF'
+        view_type = 'PDF'
     elif button == 'Abstract views':
-        type = 'Abstract Views'
-    return df.sort_values(by=type, ascending=False, na_position='last').head(5)
+        view_type = 'Abstract Views'
+    return df.sort_values(by=view_type, ascending=False, na_position='last').head(5)
 
 st.title('Views and Downloads')
 st.markdown("""
@@ -52,22 +52,22 @@ if 'df_valid' in st.session_state and st.session_state.df_valid is not False:
     Both metrics are filtered using COUNTER standards to remove bot traffic and provide accurate readership data.
     """)
     
-    type = st.radio("Pick one", ["File Downloads", "Abstract views"])
+    view_type = st.radio("Pick one", ["File Downloads", "Abstract views"])
     
     # Add interpretation based on selected metric
-    if type == "File Downloads":
+    if view_type == "File Downloads":
         st.info("📄 **File Downloads** - These articles have the highest reader commitment. People are actively opening and likely reading or referencing these papers.")
     else:
         st.info("👀 **Abstract Views** - These articles are attracting the most initial interest. They have strong titles, good SEO, or are being widely browsed.")
     
-    top5_df = article_top5_downloads(df, type)
+    top5_df = article_top5_downloads(df, view_type)
     st.write(top5_df)
     
     # Add insights section
     if not top5_df.empty:
         st.subheader("📊 Quick Insights")
         
-        if type == "File Downloads":
+        if view_type == "File Downloads":
             max_downloads = top5_df['PDF'].max()
             min_downloads = top5_df['PDF'].min()
             avg_downloads = top5_df['PDF'].mean()
